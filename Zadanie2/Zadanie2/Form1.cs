@@ -15,7 +15,7 @@ namespace Zadanie2
 
     public partial class Form1 : Form
     {
-        public SqlConnection con = new SqlConnection("Data source = 303-9\\MSSQLSERVERRR; Initial Catalog = input; Integrated Security = true;");
+        public SqlConnection con = new SqlConnection("Data source = LAPTOP-R3TPO26M\\SQLEXPRESS; Initial Catalog = input; Integrated Security = true;");
         DataTable DataTable = new DataTable();
         public Form1()
         {
@@ -25,18 +25,17 @@ namespace Zadanie2
         private void Form1_Load(object sender, EventArgs e)
         {
             con.Open();
-            SqlCommand command = new SqlCommand("select distinct [Название_ЖК], [Статус_строительства_ЖК], (select COUNT([Название_ЖК]) from [dbo].[houses] as h2 where h1.[Название_ЖК] = h2.[Название_ЖК]) as [Кол-во домов], [Город]from[dbo].[houses] as h1", con);
+            SqlCommand command = new SqlCommand("SELECT *, (SELECT COUNT([ИД_ЖК]) FROM dbo.house2 AS [home] WHERE home.ИД_ЖК = home.ИД_ЖК) FROM dbo.home", con);
             SqlDataReader reader = command.ExecuteReader();
             
-            int n = 2;
             while (reader.Read())
             {
                 dataGridView1.Rows.Add(
                     //reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString()
-                    reader["Название_ЖК"].ToString(),
-                    reader["Статус_строительства_ЖК"].ToString(),
-                    reader["Кол-во домов"].ToString(),
-                    reader["Город"].ToString()
+                    reader[1].ToString(),
+                    reader[3].ToString(),
+                    reader[6].ToString(),
+                    reader[2].ToString()
                     );
                 
             }
@@ -61,17 +60,27 @@ namespace Zadanie2
         {
             this.dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
             button3.Visible = true;
+            button4.Visible = true;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             button3.Visible = false;
+            button4.Visible = false;
             dataGridView1.EndEdit();
+            //MessageBox.Show(dataGridView1.CurrentRow.Index.ToString());
             con.Open();
-            SqlDataAdapter adapt = new SqlDataAdapter("SELECT * FROM '"+ dataGridView1.DataSource +"' ", con);
-            adapt.Update(DataTable);
-            SqlCommand command = new SqlCommand($"UPDATE dbo.houses SET [Название_ЖК] = {dataGridView1.CurrentRow.Cells[0].Value.ToString()}, [Статус_строительства_ЖК] = {dataGridView1.CurrentRow.Cells[1].Value.ToString()} [Город] = {dataGridView1.CurrentRow.Cells[3].Value.ToString()}");
+            SqlCommand command = new SqlCommand($"UPDATE dbo.home SET [Название_ЖК] = '{dataGridView1.CurrentRow.Cells[0].Value.ToString()}', [Статус_строительства_ЖК] = '{dataGridView1.CurrentRow.Cells[1].Value.ToString()}', [Город] = '{dataGridView1.CurrentRow.Cells[3].Value.ToString()}' WHERE [ИД_ЖК] = '{dataGridView1.CurrentRow.Index+1}'", con);
+            command.ExecuteNonQuery();
             //SqlCommand commanda = new SqlCommand("SELECT * FROM '"+ dataGridView1. +"'", con);
+            con.Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlCommand delete = new SqlCommand($"DELETE FROM dbo.home WHERE [ИД_ЖК] = '{dataGridView1.CurrentRow.Index + 1}'", con);
+            delete.ExecuteNonQuery();
             con.Close();
         }
     }

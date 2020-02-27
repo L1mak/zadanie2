@@ -38,6 +38,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.City = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Name
@@ -58,7 +59,7 @@
             // 
             // Koeff
             // 
-            this.Koeff.Location = new System.Drawing.Point(62, 101);
+            this.Koeff.Location = new System.Drawing.Point(62, 236);
             this.Koeff.Name = "Koeff";
             this.Koeff.Size = new System.Drawing.Size(100, 20);
             this.Koeff.TabIndex = 3;
@@ -73,7 +74,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(59, 84);
+            this.label2.Location = new System.Drawing.Point(59, 219);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(190, 13);
             this.label2.TabIndex = 6;
@@ -99,6 +100,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "План",
@@ -113,7 +115,7 @@
             // 
             this.City.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.City.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.City.Location = new System.Drawing.Point(62, 227);
+            this.City.Location = new System.Drawing.Point(62, 101);
             this.City.Name = "City";
             this.City.Size = new System.Drawing.Size(100, 20);
             this.City.TabIndex = 10;
@@ -122,17 +124,28 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(59, 210);
+            this.label5.Location = new System.Drawing.Point(59, 84);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(37, 13);
             this.label5.TabIndex = 11;
             this.label5.Text = "Город";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(440, 158);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(284, 99);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Добавить";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.City);
             this.Controls.Add(this.comboBox1);
@@ -162,5 +175,6 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox City;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -7,14 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace Zadanie2
 {
     public partial class Form2 : Form
     {
+        public SqlConnection con = new SqlConnection("Data source = LAPTOP-R3TPO26M\\SQLEXPRESS; Initial Catalog = input; Integrated Security = true;");
         public Form2()
         {
             InitializeComponent();
+
         }
 
         private void City_TextChanged(object sender, EventArgs e)
@@ -30,6 +33,15 @@ namespace Zadanie2
                     "Москва","Питер","Пенза","Уфа"
                 });
             City.AutoCompleteCustomSource = source;
+            comboBox1.SelectedIndex = 0;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlCommand command = new SqlCommand($"INSERT INTO dbo.home([Название_ЖК],[Город],[Статус_строительства_ЖК],[Добавочная_стоимость_ЖК],[Затраты_на_строительство_ЖК]) VALUES('{Name.Text}','{City.Text}','{comboBox1.Text}','{Koeff.Text}','{Traty.Text}') ", con);
+            command.ExecuteNonQuery();
+            con.Close();
         }
     }
 }
