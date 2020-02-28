@@ -15,7 +15,7 @@ namespace Zadanie2
 
     public partial class Form1 : Form
     {
-        public SqlConnection con = new SqlConnection("Data source = LAPTOP-R3TPO26M\\SQLEXPRESS; Initial Catalog = input; Integrated Security = true;");
+        public SqlConnection con = new SqlConnection("Data source = 303-9\\MSSQLSERVERRR; Initial Catalog = input; Integrated Security = true;");
         DataTable DataTable = new DataTable();
         public Form1()
         {
@@ -24,18 +24,19 @@ namespace Zadanie2
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            dataGridView1.Rows.Clear();
             con.Open();
-            SqlCommand command = new SqlCommand("SELECT *, (SELECT COUNT([ИД_ЖК]) FROM dbo.house2 AS [home] WHERE home.ИД_ЖК = home.ИД_ЖК) FROM dbo.home", con);
+            SqlCommand command = new SqlCommand("select [Название_ЖК], [Статус_строительства_ЖК], (select COUNT([ИД_ЖК]) from [dbo].[house2] as h2 where h2.[ИД_ЖК] = h1.[ИД_ЖК]) AS count, [Город] from [dbo].[home] as h1", con);
             SqlDataReader reader = command.ExecuteReader();
             
             while (reader.Read())
             {
                 dataGridView1.Rows.Add(
                     //reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString()
-                    reader[1].ToString(),
-                    reader[3].ToString(),
-                    reader[6].ToString(),
-                    reader[2].ToString()
+                    reader["Название_ЖК"].ToString(),
+                    reader["Статус_строительства_ЖК"].ToString(),
+                    reader["count"].ToString(),
+                    reader["Город"].ToString()
                     );
                 
             }
@@ -68,20 +69,29 @@ namespace Zadanie2
             button3.Visible = false;
             button4.Visible = false;
             dataGridView1.EndEdit();
-            //MessageBox.Show(dataGridView1.CurrentRow.Index.ToString());
             con.Open();
             SqlCommand command = new SqlCommand($"UPDATE dbo.home SET [Название_ЖК] = '{dataGridView1.CurrentRow.Cells[0].Value.ToString()}', [Статус_строительства_ЖК] = '{dataGridView1.CurrentRow.Cells[1].Value.ToString()}', [Город] = '{dataGridView1.CurrentRow.Cells[3].Value.ToString()}' WHERE [ИД_ЖК] = '{dataGridView1.CurrentRow.Index+1}'", con);
             command.ExecuteNonQuery();
-            //SqlCommand commanda = new SqlCommand("SELECT * FROM '"+ dataGridView1. +"'", con);
             con.Close();
+            dataGridView1.Update();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             con.Open();
-            SqlCommand delete = new SqlCommand($"DELETE FROM dbo.home WHERE [ИД_ЖК] = '{dataGridView1.CurrentRow.Index + 1}'", con);
+            int index = dataGridView1.CurrentRow.Index;
+            string data = dataGridView1[0, index].Value.ToString();
+            SqlCommand delete = new SqlCommand($"DELETE FROM dbo.home WHERE [Название_ЖК] = '{data}'", con);
             delete.ExecuteNonQuery();
             con.Close();
+            Form1_Load(sender, e);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form3 fm3 = new Form3();
+            fm3.Show();
+            this.Hide();
         }
     }
 }

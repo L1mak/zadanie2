@@ -13,7 +13,7 @@ namespace Zadanie2
 {
     public partial class Form2 : Form
     {
-        public SqlConnection con = new SqlConnection("Data source = LAPTOP-R3TPO26M\\SQLEXPRESS; Initial Catalog = input; Integrated Security = true;");
+        public SqlConnection con = new SqlConnection("Data source = 303-9\\MSSQLSERVERRR; Initial Catalog = input; Integrated Security = true;");
         public Form2()
         {
             InitializeComponent();
@@ -42,6 +42,13 @@ namespace Zadanie2
             SqlCommand command = new SqlCommand($"INSERT INTO dbo.home([Название_ЖК],[Город],[Статус_строительства_ЖК],[Добавочная_стоимость_ЖК],[Затраты_на_строительство_ЖК]) VALUES('{Name.Text}','{City.Text}','{comboBox1.Text}','{Koeff.Text}','{Traty.Text}') ", con);
             command.ExecuteNonQuery();
             con.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form1 fm1 = new Form1();
+            fm1.Show();
+            this.Hide();
         }
     }
 }
