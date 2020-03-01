@@ -15,7 +15,8 @@ namespace Zadanie2
 
     public partial class Form1 : Form
     {
-        public SqlConnection con = new SqlConnection("Data source = 303-9\\MSSQLSERVERRR; Initial Catalog = input; Integrated Security = true;");
+        public SqlConnection con = new SqlConnection("Data source = 303-9\\MSSQLSERVERRR; Initial Catalog = input;" +
+            " Integrated Security = true;");
         DataTable DataTable = new DataTable();
         public Form1()
         {
@@ -26,7 +27,9 @@ namespace Zadanie2
         {
             dataGridView1.Rows.Clear();
             con.Open();
-            SqlCommand command = new SqlCommand("select [Название_ЖК], [Статус_строительства_ЖК], (select COUNT([ИД_ЖК]) from [dbo].[house2] as h2 where h2.[ИД_ЖК] = h1.[ИД_ЖК]) AS count, [Город] from [dbo].[home] as h1", con);
+            SqlCommand command = new SqlCommand("select [Название_ЖК], [Статус_строительства_ЖК]," +
+                " (select COUNT([ИД_ЖК]) from [dbo].[house2] as h2 where h2.[ИД_ЖК] = h1.[ИД_ЖК])" +
+                " AS count, [Город] from [dbo].[home] as h1", con);
             SqlDataReader reader = command.ExecuteReader();
             
             while (reader.Read())
