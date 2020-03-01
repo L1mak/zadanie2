@@ -16,7 +16,7 @@ namespace Zadanie2
         int n = 0;
         int countPage = 0;
         List<DataTable> list = new List<DataTable>();
-        public SqlConnection con = new SqlConnection("Data source = LAPTOP-R3TPO26M\\SQLEXPRESS;" +
+        public SqlConnection con = new SqlConnection("Data source = 303-9\\MSSQLSERVERRR;" +
             " Initial Catalog = input; Integrated Security = true;");
         public Form4()
         {
